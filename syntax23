@@ -1,0 +1,8 @@
+
+    
+insert into Users (username, password) values ('andrei','parola');
+insert into usersrole (user_id, user_type) values (1,'user');
+
+insert into Users(username, password) values ('calin','parola');
+insert into usersrole (user_id,user_type) values (2,'admin');
+    

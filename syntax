@@ -1,0 +1,31 @@
+create table IF NOT EXISTS Users
+(
+id serial PRIMARY KEY,
+username varchar(40) NOT NULL,
+password varchar(40) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS UsersRole
+( 
+   id serial PRIMARY KEY,
+   user_id integer REFERENCES Users(id),
+   user_type varchar(30) 
+);
+
+CREATE TABLE IF NOT EXISTS Client
+(
+	id_card_number serial PRIMARY KEY,
+	name varchar(40),
+	cnp integer,
+    address varchar(40)
+);
+
+CREATE TABLE IF NOT EXISTS Account
+(
+	id_number serial PRIMARY KEY,
+	id_card_number integer REFERENCES Client(id_card_number),
+    type varchar(40),
+	amount integer,
+    creation_date date
+);
+
