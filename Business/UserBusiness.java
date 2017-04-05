@@ -46,9 +46,25 @@ public class UserBusiness {
     public DefaultTableModel listAllClientInfo()
     {
        Client c=new Client();
-        ArrayList rs = c.getGateway().findAll();
+        ResultSet rs = c.getGateway().findAll();
+        ArrayList<Client> clients = new ArrayList<Client>();
+        try
+        {
+            while(rs.next())
+            {
+                int id_card_number = rs.getInt("id_card_number");
+                String name = rs.getString("name");
+                int CNP = rs.getInt("cnp");
+                String address = rs.getString("address");
+                clients.add(new Client(name,id_card_number,CNP,address));
+            }
+        }
+        catch(SQLException se)
+        {
+            se.printStackTrace();
+        }
         try {
-            return buildClientTableModel(rs);
+            return buildClientTableModel(clients);
         }
         catch (SQLException se)
         {se.printStackTrace();}
@@ -73,9 +89,25 @@ public class UserBusiness {
     public DefaultTableModel listAllAccountInfo()
     {
         Account ac= new Account();
-        ArrayList<Account> rs = ac.getGateway().findAll();
+        ArrayList<Account> accounts = new ArrayList<Account>();
+        ResultSet rs = ac.getGateway().findAll();
         try {
-            return buildAccountTableModel(rs);
+            while (rs.next()) {
+                String type = rs.getString("type");
+                int idCardNumber = rs.getInt("id_card_number");
+                int idNumber = rs.getInt("id_number");
+                int amount = rs.getInt("amount");
+                Date creationDate = rs.getDate("creation_date");
+                accounts.add(new Account(idNumber, idCardNumber, type, amount, creationDate));
+            }
+            rs.close();
+        }
+        catch (SQLException se)
+        {
+            se.printStackTrace();
+        }
+        try {
+            return buildAccountTableModel(accounts);
         }
         catch (SQLException se)
         {se.printStackTrace();}
@@ -142,8 +174,45 @@ public class UserBusiness {
             PrintWriter receiver = new PrintWriter("Account"+acc2+".txt");
 
             AccountGateway ag = new AccountGateway();
-            Account senderAccount = ag.findById(acc1);
-            Account receiverAccount = ag.findById(acc2);
+            Account senderAccount= new Account();
+            Account receiverAccount = new Account();
+            //senderAccount.
+            ResultSet rsSender = senderAccount.getGateway().findById(acc1);
+            ResultSet rsReceiver = receiverAccount.getGateway().findById(acc2);
+            try {
+                while (rsSender.next()) {
+                    String type = rsSender.getString("type");
+                    int idCardNumber = rsSender.getInt("id_card_number");
+                    int idNumber = rsSender.getInt("id_number");
+                    int money = rsSender.getInt("amount");
+                    Date creationDate  = rsSender.getDate("creation_date");
+                    senderAccount.setIdNumber(idNumber);
+                    senderAccount.setIdCardNumber(idCardNumber);
+                    senderAccount.setType(type);
+                    senderAccount.setAmount(money);
+                    senderAccount.setCreationDate(creationDate);
+                }
+                while (rsReceiver.next()) {
+                    String type = rsReceiver.getString("type");
+                    int idCardNumber = rsReceiver.getInt("id_card_number");
+                    int idNumber = rsReceiver.getInt("id_number");
+                    int money = rsReceiver.getInt("amount");
+                    Date creationDate  = rsReceiver.getDate("creation_date");
+                    receiverAccount.setIdNumber(idNumber);
+                    receiverAccount.setIdCardNumber(idCardNumber);
+                    receiverAccount.setType(type);
+                    receiverAccount.setAmount(money);
+                    receiverAccount.setCreationDate(creationDate);
+                }
+                rsReceiver.close();
+                rsSender.close();
+            }
+            catch (SQLException e)
+                {
+                 e.printStackTrace();
+                }
+            //Account senderAccount = ag.findById(acc1);
+            //Account receiverAccount = ag.findById(acc2);
             if (senderAccount.getAmount() <= amount) {
                 return -1;
             } else {

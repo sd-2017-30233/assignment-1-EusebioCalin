@@ -73,4 +73,6 @@ public class Account {
     public void setGateway(AccountGateway gateway) {
         this.gateway = gateway;
     }
+
+    //public void
 }

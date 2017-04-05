@@ -16,8 +16,8 @@ public class AccountGateway {
     public Connection conn = null;
     public Statement stmt = null;
 
-    public ArrayList<Account> findAll() {
-        ArrayList<Account> accounts = new ArrayList<Account>();
+    public ResultSet findAll() {
+        //ArrayList<Account> accounts = new ArrayList<Account>();
         conn = DB.openConnection();
         stmt = null;
         try {
@@ -26,23 +26,23 @@ public class AccountGateway {
             String sql;
             sql = "SELECT id_number,id_card_number,type,amount,creation_date FROM Account";
             ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String type = rs.getString("type");
-                int idCardNumber = rs.getInt("id_card_number");
-                int idNumber = rs.getInt("id_number");
-                int amount = rs.getInt("amount");
-                Date creationDate  = rs.getDate("creation_date");
-                accounts.add(new Account(idNumber,idCardNumber,type,amount,creationDate));
+//            while (rs.next()) {
+//                String type = rs.getString("type");
+//                int idCardNumber = rs.getInt("id_card_number");
+//                int idNumber = rs.getInt("id_number");
+//                int amount = rs.getInt("amount");
+//                Date creationDate  = rs.getDate("creation_date");
+//                accounts.add(new Account(idNumber,idCardNumber,type,amount,creationDate));
+//
+//                System.out.print("ID: " + idCardNumber);
+//                System.out.print(", idNumber: " + idNumber);
+//                System.out.print(", amount: " + amount);
+//                System.out.println(", type: " +type);
+//                System.out.println(", creationDate: " +creationDate);
+//         }
 
-                System.out.print("ID: " + idCardNumber);
-                System.out.print(", idNumber: " + idNumber);
-                System.out.print(", amount: " + amount);
-                System.out.println(", type: " +type);
-                System.out.println(", creationDate: " +creationDate);
-         }
-
-            rs.close();
-            return accounts ;
+            //rs.close();
+            return rs ;
         }catch (SQLException se) {
             se.printStackTrace();
         }
@@ -50,7 +50,7 @@ public class AccountGateway {
         return null;
     }
 
-    public Account findById(int id) {
+    public ResultSet findById(int id) {
         conn = DB.openConnection();
 
         try {
@@ -60,22 +60,22 @@ public class AccountGateway {
             Account account=new Account();
             sql = "SELECT id_number,id_card_number,type,amount,creation_date FROM Account WHERE id_number='"+id+"'";
             ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                String type = rs.getString("type");
-                int idCardNumber = rs.getInt("id_card_number");
-                int idNumber = rs.getInt("id_number");
-                int amount = rs.getInt("amount");
-                Date creationDate  = rs.getDate("creation_date");
+//            while (rs.next()) {
+//                String type = rs.getString("type");
+//                int idCardNumber = rs.getInt("id_card_number");
+//                int idNumber = rs.getInt("id_number");
+//                int amount = rs.getInt("amount");
+//                Date creationDate  = rs.getDate("creation_date");
+//
+//                account.setIdNumber(idNumber);
+//                account.setIdCardNumber(idCardNumber);
+//                account.setType(type);
+//                account.setAmount(amount);
+//                account.setCreationDate(creationDate);
+//            }
 
-                account.setIdNumber(idNumber);
-                account.setIdCardNumber(idCardNumber);
-                account.setType(type);
-                account.setAmount(amount);
-                account.setCreationDate(creationDate);
-            }
-
-            rs.close();
-            return account;
+            //rs.close();
+            return rs;
         }catch (SQLException se) {
             se.printStackTrace();
         }

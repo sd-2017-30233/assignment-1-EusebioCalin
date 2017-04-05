@@ -21,34 +21,34 @@ public class ClientGateway {
      * CRUD OPERATIONS
      */
 
-    public ArrayList<Client> findAll() {
+    public ResultSet findAll() {
 
        conn = DB.openConnection();
         try {
             System.out.println("Creating statement...");
             stmt = conn.createStatement();
             String sql;
-            ArrayList<Client> clients = new ArrayList<Client>();
+            //ArrayList<Client> clients = new ArrayList<Client>();
             sql = "SELECT id_card_number, name, cnp, address FROM Client";
             ResultSet rs = stmt.executeQuery(sql);
-            while (rs.next()) {
-                //Retrieve by column name
-
-                int id_card_number = rs.getInt("id_card_number");
-                String name = rs.getString("name");
-                int CNP = rs.getInt("cnp");
-                String address = rs.getString("address");
-                clients.add(new Client(name,id_card_number,CNP,address));
-                //Display values
-
-                System.out.print(" ID: " + id_card_number);
-                System.out.print(" ,name: " + name);
-                System.out.print(" , cnp: " + CNP);
-                System.out.println(" , address: " + address);
-            }
-            //STEP 6: Clean-up environment
-             rs.close();
-            return clients;
+//            while (rs.next()) {
+//                //Retrieve by column name
+//
+//                int id_card_number = rs.getInt("id_card_number");
+//                String name = rs.getString("name");
+//                int CNP = rs.getInt("cnp");
+//                String address = rs.getString("address");
+//                clients.add(new Client(name,id_card_number,CNP,address));
+//                //Display values
+//
+//                System.out.print(" ID: " + id_card_number);
+//                System.out.print(" ,name: " + name);
+//                System.out.print(" , cnp: " + CNP);
+//                System.out.println(" , address: " + address);
+//            }
+//            //STEP 6: Clean-up environment
+//             rs.close();
+            return rs;
         }catch (SQLException se) {
             //Handle errors for JDBC
             se.printStackTrace();
